@@ -40,7 +40,8 @@ func main() {
 	for _, line := range lines {
 		fmt.Println(line)
 	}
-	fmt.Printf("==> Server listening at %s", bindAddr)
+	fmt.Println()
+	fmt.Printf("==> Server listening at %s 🚀\n", bindAddr)
 
 	err := http.ListenAndServe(bindAddr, nil)
 	if err != nil {
