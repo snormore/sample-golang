@@ -32,7 +32,7 @@ func main() {
 		cacheTTLString := os.Getenv("APP_CACHE_TTL")
 		if cacheTTLString != "" {
 			cacheTTL, _ := strconv.Atoi(cacheTTLString)
-			w.Header().Set("Cache-Control", fmt.Sprintf("max-age=%d", cacheTTL))
+			w.Header().Set("Cache-Control", fmt.Sprintf("public,max-age=%d", cacheTTL))
 			requestID := uuid.Must(uuid.NewV4())
 			fmt.Fprintf(w, "Hello - you've requested %s - %s\n", r.URL.Path, requestID)
 		} else {
