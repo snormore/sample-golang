@@ -4,10 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
-
-	"github.com/gofrs/uuid"
 )
 
 const startMessage = `[48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m[38;2;0;170;255m▄[48;2;0;0;0m[38;2;0;179;247m▄[48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;180;248m[38;2;0;0;0m▄[48;2;0;179;247m [48;2;0;179;247m [48;2;0;175;247m[38;2;0;179;247m▄[48;2;0;0;0m[38;2;0;179;247m▄[48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [0m
@@ -28,15 +25,18 @@ const startMessage = `[48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [48;2;0;0;0m [
 `
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		cacheTTLString := os.Getenv("APP_CACHE_TTL")
-		requestID := uuid.Must(uuid.NewV4())
-		if cacheTTLString != "" {
-			cacheTTL, _ := strconv.Atoi(cacheTTLString)
-			w.Header().Set("Cache-Control", fmt.Sprintf("max-age=%d", cacheTTL))
-		}
-		fmt.Fprintf(w, "Hello - you've requested %s - %s\n", r.URL.Path, requestID)
-	})
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/", fs)
+
+	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	cacheTTLString := os.Getenv("APP_CACHE_TTL")
+	// 	requestID := uuid.Must(uuid.NewV4())
+	// 	if cacheTTLString != "" {
+	// 		cacheTTL, _ := strconv.Atoi(cacheTTLString)
+	// 		w.Header().Set("Cache-Control", fmt.Sprintf("max-age=%d", cacheTTL))
+	// 	}
+	// 	fmt.Fprintf(w, "Hello - you've requested %s - %s\n", r.URL.Path, requestID)
+	// })
 
 	port := os.Getenv("PORT")
 	if port == "" {
