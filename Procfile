@@ -1,1 +1,1 @@
-web: echo foo
+web: echo "Using Procfile" && bin/sample-golang
