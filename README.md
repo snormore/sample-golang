@@ -1,0 +1,1 @@
+![.github/workflows/main.yml](https://github.com/snormore/sample-golang/workflows/.github/workflows/main.yml/badge.svg?branch=action)
