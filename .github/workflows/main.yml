@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy App
     steps:
-    - name: Deploy
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Deploy app
       id: deploy
       uses: snormore/doctl-app-deploy-action@main
