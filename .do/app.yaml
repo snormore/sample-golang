@@ -1,0 +1,6 @@
+name: sample-golang
+services:
+- name: web
+  git:
+    repo_clone_url: https://github.com/snormore/sample-golang.git
+    branch: main
